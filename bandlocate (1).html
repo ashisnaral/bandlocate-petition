@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BandLocate — Where AI Composers Meet Real Voices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#14171F; --ink-soft:#1D2129;
+    --paper:#EDE6D8; --paper-dim:#C9C0AE;
+    --signal:#4FC8B8; --amber:#E8A33D; --wine:#8B3A3A;
+    --line: rgba(237,230,216,0.14);
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--ink); color:var(--paper); font-family:'Space Grotesk', sans-serif; line-height:1.5; -webkit-font-smoothing:antialiased;}
+  h1,h2,h3{font-family:'Fraunces', serif; font-weight:500; letter-spacing:-0.01em;}
+  a{color:inherit;}
+  .wrap{max-width:1080px; margin:0 auto; padding:0 28px;}
+  @media (max-width:640px){.wrap{padding:0 20px;}}
+
+  header{position:sticky; top:0; z-index:50; background:rgba(20,23,31,0.9); backdrop-filter: blur(10px); border-bottom:1px solid var(--line);}
+  nav{display:flex; align-items:center; justify-content:space-between; padding:16px 0;}
+  .logo{font-family:'Fraunces', serif; font-style:italic; font-size:21px; font-weight:600;}
+  .logo span{font-style:normal; color:var(--signal);}
+  .navcta{font-size:12px; font-family:'JetBrains Mono', monospace; background:var(--paper); color:var(--ink); padding:9px 16px; border-radius:999px; text-decoration:none; font-weight:700;}
+
+  /* ===== hero ===== */
+  .hero{padding:80px 0 40px; text-align:center;}
+  .hero h1{font-size:clamp(34px, 5.6vw, 58px); line-height:1.1;}
+  .hero h1 em{font-style:italic; color:var(--amber);}
+  .hero p{margin:16px auto 0; font-size:15px; color:var(--paper-dim); max-width:42ch;}
+  .btnrow{display:flex; gap:12px; justify-content:center; margin-top:30px; flex-wrap:wrap;}
+  .btn{font-family:'JetBrains Mono', monospace; font-size:13px; text-decoration:none; padding:14px 22px; border-radius:8px; display:inline-flex; align-items:center; gap:8px;}
+  .btn-signal{background:var(--signal); color:var(--ink); font-weight:700;}
+  .btn-amber{background:transparent; color:var(--amber); border:1px solid var(--amber);}
+
+  /* ===== single explainer graphic ===== */
+  .diagram{padding:20px 0 70px;}
+  .diagram-box{
+    background:var(--ink-soft); border:1px solid var(--line); border-radius:16px;
+    padding:44px 32px; display:flex; align-items:center; justify-content:center;
+  }
+  .diagram svg{width:100%; max-width:760px; height:auto;}
+
+  /* ===== 3 big steps ===== */
+  .steps{padding:20px 0 80px;}
+  .steps-head{text-align:center; margin-bottom:44px;}
+  .steps-head h2{font-size:clamp(26px,3.4vw,38px);}
+  .stepgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:800px){.stepgrid{grid-template-columns:1fr;}}
+  .stepcard{background:var(--ink-soft); border:1px solid var(--line); border-radius:14px; padding:32px 26px; text-align:center;}
+  .stepicon{width:64px; height:64px; margin:0 auto 20px; border-radius:50%; background:rgba(79,200,184,0.12); display:flex; align-items:center; justify-content:center;}
+  .stepcard:nth-child(2) .stepicon{background:rgba(232,163,61,0.14);}
+  .stepcard:nth-child(3) .stepicon{background:rgba(139,58,58,0.16);}
+  .stepicon svg{width:30px; height:30px;}
+  .stepcard h3{font-size:19px; margin-bottom:8px;}
+  .stepcard p{font-size:13.5px; color:var(--paper-dim);}
+
+  /* ===== pricing callout ===== */
+  .pricing{padding:0 0 80px;}
+  .pricing-box{
+    display:flex; align-items:flex-start; gap:20px;
+    background:var(--ink-soft); border:1px solid var(--amber);
+    border-radius:14px; padding:28px 30px; max-width:680px; margin:0 auto;
+  }
+  .pricing-icon{width:48px; height:48px; flex-shrink:0; border-radius:50%; background:rgba(232,163,61,0.14); display:flex; align-items:center; justify-content:center;}
+  .pricing-icon svg{width:24px; height:24px;}
+  .pricing-box h3{font-size:19px; margin-bottom:8px; color:var(--amber);}
+  .pricing-box p{font-size:13.5px; color:var(--paper-dim); max-width:48ch;}
+
+  /* ===== releases ===== */
+  .releases{padding:0 0 84px;}
+  .section-head{text-align:center; margin-bottom:12px;}
+  .section-head .label{font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--signal); display:block; margin-bottom:10px;}
+  .section-head h2{font-size:clamp(26px,3.4vw,38px);}
+  .section-sub{text-align:center; color:var(--paper-dim); font-size:14px; margin-bottom:40px;}
+  .relgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  @media (max-width:900px){.relgrid{grid-template-columns:1fr;}}
+  .card{background:var(--ink-soft); border:1px solid var(--line); border-radius:12px; overflow:hidden;}
+  .thumb{aspect-ratio:16/9; position:relative; display:block; overflow:hidden; background:#000; cursor:pointer;}
+  .thumb iframe{width:100%; height:100%; border:0; display:block;}
+  .thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .thumb .playbtn{position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:52px; height:52px; border-radius:50%; background:rgba(20,23,31,0.55); border:1.5px solid rgba(237,230,216,0.7); display:flex; align-items:center; justify-content:center;}
+  .thumb .playbtn::after{content:""; width:0; height:0; border-top:9px solid transparent; border-bottom:9px solid transparent; border-left:14px solid var(--paper); margin-left:3px;}
+  .card-body{padding:16px 18px 18px;}
+  .card-body .tname{font-family:'Fraunces', serif; font-weight:600; font-size:16px; margin-bottom:12px;}
+  .crow{display:flex; align-items:center; justify-content:space-between; gap:10px;}
+  .rate{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--amber);}
+  .sing-btn{font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--ink); background:var(--signal); padding:8px 12px; border-radius:6px; border:none; cursor:pointer;}
+
+  /* ===== forms — simple, icon-led ===== */
+  .forms{padding:80px 0 100px; background:var(--ink-soft); border-top:1px solid var(--line);}
+  .formblock{max-width:560px; margin:0 auto 70px;}
+  .formblock:last-child{margin-bottom:0;}
+  .fhead{text-align:center; margin-bottom:26px;}
+  .fhead-icon{width:52px; height:52px; margin:0 auto 14px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .formblock.viewer .fhead-icon{background:rgba(232,163,61,0.14);}
+  .formblock.composer .fhead-icon{background:rgba(79,200,184,0.12);}
+  .fhead-icon svg{width:24px; height:24px;}
+  .fhead h2{font-size:clamp(21px,2.6vw,28px);}
+  .fhead p{font-size:13px; color:var(--paper-dim); margin-top:6px;}
+
+  .card-form{background:var(--ink); border:1px solid var(--line); border-radius:14px; padding:30px 28px;}
+  label{font-family:'JetBrains Mono', monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--paper-dim); display:block; margin-bottom:7px; margin-top:18px;}
+  label:first-of-type{margin-top:0;}
+  input, select, textarea{width:100%; background:transparent; border:none; border-bottom:1px solid var(--line); color:var(--paper); font-family:'Space Grotesk', sans-serif; font-size:15px; padding:9px 2px; outline:none;}
+  select{appearance:none; background-image:linear-gradient(45deg, transparent 50%, var(--paper-dim) 50%), linear-gradient(135deg, var(--paper-dim) 50%, transparent 50%); background-position: calc(100% - 14px) center, calc(100% - 9px) center; background-size:5px 5px, 5px 5px; background-repeat:no-repeat;}
+  select option{background:var(--ink);}
+  input:focus, select:focus, textarea:focus{border-color:var(--amber);}
+  .formblock.composer input:focus, .formblock.composer textarea:focus{border-color:var(--signal);}
+  textarea{resize:vertical; min-height:56px;}
+  .submitbtn{margin-top:22px; width:100%; text-align:center; padding:14px 0; font-family:'JetBrains Mono', monospace; font-size:13px; border:none; cursor:pointer; border-radius:8px;}
+  .formblock.viewer .submitbtn{background:var(--amber); color:var(--ink); font-weight:700;}
+  .formblock.composer .submitbtn{background:var(--signal); color:var(--ink); font-weight:700;}
+  .formnote{margin-top:12px; font-size:12px; color:var(--paper-dim); display:none; text-align:center;}
+  .formnote.show{display:block;}
+
+  footer.site{padding:36px 0; border-top:1px solid var(--line); text-align:center;}
+  footer.site p{font-family:'JetBrains Mono', monospace; font-size:12px; color:var(--paper-dim);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <div class="logo">BandLocate<span>.</span></div>
+      <a href="#compose" class="navcta">+ SUBMIT A TRACK</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>AI writes it.<br><em>You</em> sing it.</h1>
+    <p>Composers post a track. Singers send a demo and a rate. The song gets performed live.</p>
+    <div class="btnrow">
+      <a href="#releases" class="btn btn-signal" onclick="event.preventDefault(); document.getElementById('releases').scrollIntoView({behavior:'smooth'});">🎧 Browse songs</a>
+      <a href="#compose" class="btn btn-amber">+ Submit a track</a>
+    </div>
+  </div>
+</section>
+
+<section class="diagram">
+  <div class="wrap">
+    <div class="diagram-box">
+      <svg viewBox="0 0 760 220" xmlns="http://www.w3.org/2000/svg">
+        <!-- chip -->
+        <rect x="20" y="70" width="90" height="80" rx="10" fill="none" stroke="var(--signal)" stroke-width="2.5"/>
+        <rect x="45" y="95" width="40" height="30" rx="4" fill="var(--signal)" opacity="0.25"/>
+        <line x1="65" y1="70" x2="65" y2="55" stroke="var(--signal)" stroke-width="2.5"/>
+        <line x1="40" y1="70" x2="40" y2="55" stroke="var(--signal)" stroke-width="2.5"/>
+        <line x1="90" y1="70" x2="90" y2="55" stroke="var(--signal)" stroke-width="2.5"/>
+        <line x1="65" y1="150" x2="65" y2="165" stroke="var(--signal)" stroke-width="2.5"/>
+        <line x1="40" y1="150" x2="40" y2="165" stroke="var(--signal)" stroke-width="2.5"/>
+        <line x1="90" y1="150" x2="90" y2="165" stroke="var(--signal)" stroke-width="2.5"/>
+        <text x="65" y="196" text-anchor="middle" fill="var(--paper-dim)" font-family="JetBrains Mono, monospace" font-size="11">COMPOSER</text>
+
+        <!-- arrow + waveform -->
+        <path d="M140 110 h140" stroke="var(--paper-dim)" stroke-width="2" stroke-dasharray="4 5"/>
+        <polygon points="278,105 292,110 278,115" fill="var(--paper-dim)"/>
+        <g transform="translate(160,80)">
+          <rect x="0" y="20" width="6" height="20" fill="var(--amber)"/>
+          <rect x="12" y="8" width="6" height="44" fill="var(--amber)"/>
+          <rect x="24" y="0" width="6" height="60" fill="var(--amber)"/>
+          <rect x="36" y="14" width="6" height="32" fill="var(--amber)"/>
+          <rect x="48" y="24" width="6" height="12" fill="var(--amber)"/>
+        </g>
+
+        <!-- mic -->
+        <g transform="translate(330,40)">
+          <ellipse cx="40" cy="45" rx="26" ry="34" fill="none" stroke="var(--amber)" stroke-width="2.5"/>
+          <path d="M8 60 a32 32 0 0 0 64 0" fill="none" stroke="var(--amber)" stroke-width="2.5"/>
+          <line x1="40" y1="92" x2="40" y2="115" stroke="var(--amber)" stroke-width="2.5"/>
+          <line x1="18" y1="115" x2="62" y2="115" stroke="var(--amber)" stroke-width="2.5"/>
+          <text x="40" y="140" text-anchor="middle" fill="var(--paper-dim)" font-family="JetBrains Mono, monospace" font-size="11">ARTIST</text>
+        </g>
+
+        <!-- arrow + rate -->
+        <path d="M450 110 h130" stroke="var(--paper-dim)" stroke-width="2" stroke-dasharray="4 5"/>
+        <polygon points="578,105 592,110 578,115" fill="var(--paper-dim)"/>
+        <text x="515" y="95" text-anchor="middle" fill="var(--signal)" font-family="JetBrains Mono, monospace" font-weight="700" font-size="13">$150–$5,500</text>
+
+        <!-- stage -->
+        <g transform="translate(610,55)">
+          <path d="M0 90 L60 90 L50 30 L10 30 Z" fill="none" stroke="var(--wine)" stroke-width="2.5"/>
+          <circle cx="20" cy="15" r="7" fill="var(--wine)" opacity="0.7"/>
+          <circle cx="40" cy="15" r="7" fill="var(--wine)" opacity="0.7"/>
+          <text x="30" y="118" text-anchor="middle" fill="var(--paper-dim)" font-family="JetBrains Mono, monospace" font-size="11">LIVE SHOW</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<section class="steps">
+  <div class="wrap">
+    <div class="steps-head"><h2>How it works</h2></div>
+    <div class="stepgrid">
+      <div class="stepcard">
+        <div class="stepicon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--signal)" stroke-width="1.8"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"/></svg></div>
+        <h3>1. Post a track</h3>
+        <p>Composer uploads a finished song.</p>
+      </div>
+      <div class="stepcard">
+        <div class="stepicon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0M12 19v3"/></svg></div>
+        <h3>2. Send a demo</h3>
+        <p>Singer covers it and names their rate.</p>
+      </div>
+      <div class="stepcard">
+        <div class="stepicon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--wine)" stroke-width="1.8"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+        <h3>3. Perform live</h3>
+        <p>Booked, performed, and shouted out.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="pricing">
+  <div class="wrap">
+    <div class="pricing-box">
+      <div class="pricing-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+      <div>
+        <h3>$150–$5,500 per song</h3>
+        <p>Pricing depends on what kind of exposure you can get the composer. If you have a large genuine social media and/or live audience following, you can name your price. Pricing also depends on whether you are a solo performer or a band.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="releases" id="releases">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="label">AK Naral's catalog</span>
+      <h2>My Circus My Monkeys</h2>
+    </div>
+    <p class="section-sub">Pick a song, then send your demo below.<br><span style="opacity:0.7;">(You could be featured below. Won't cost you anything to send your link.)</span></p>
+    <div class="relgrid" id="relgrid"></div>
+  </div>
+</section>
+
+<section class="forms">
+  <div class="wrap">
+
+    <div class="formblock viewer" id="sing">
+      <div class="fhead">
+        <div class="fhead-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--amber)" stroke-width="1.8"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3z"/><path d="M19 11a7 7 0 0 1-14 0M12 19v3"/></svg></div>
+        <h2>I want to sing this song</h2>
+        <p>For singers &amp; artists</p>
+      </div>
+      <div class="card-form">
+        <form id="viewer-form" onsubmit="return handleSubmit(event, 'viewer')">
+          <input type="hidden" name="_subject" value="BandLocate: new song inquiry">
+          <label>Your name</label>
+          <input type="text" name="name" required placeholder="Full name or stage name">
+          <label>Which song?</label>
+          <select id="songSelect" name="song" required></select>
+          <label>Link to your demo</label>
+          <input type="url" name="demo_link" required placeholder="https://...">
+          <label>Your rate to perform it live</label>
+          <input type="text" name="rate" required placeholder="e.g. $200">
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="you@email.com">
+          <button class="submitbtn" type="submit">SEND INQUIRY →</button>
+          <p class="formnote" id="note-viewer">Mockup only for now — nothing was actually sent. Wire this to a form backend when ready to go live.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="formblock composer" id="compose">
+      <div class="fhead">
+        <div class="fhead-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--signal)" stroke-width="1.8"><path d="M12 3v12M7 8l5-5 5 5M5 21h14"/></svg></div>
+        <h2>Get your track featured</h2>
+        <p>For AI composers</p>
+      </div>
+      <div class="card-form">
+        <form id="composer-form" onsubmit="return handleSubmit(event, 'composer')">
+          <input type="hidden" name="_subject" value="BandLocate: new track submission">
+          <label>Your name</label>
+          <input type="text" name="name" required placeholder="Composer / artist name">
+          <label>Track title</label>
+          <input type="text" name="track_title" required placeholder="Song name">
+          <label>Link to track</label>
+          <input type="url" name="track_link" required placeholder="https://youtube.com/...">
+          <label>What are you looking for in a voice?</label>
+          <textarea name="voice_notes" placeholder="Genre, tone, range, anything a singer should know"></textarea>
+          <label>Email</label>
+          <input type="email" name="email" required placeholder="you@email.com">
+          <button class="submitbtn" type="submit">SUBMIT TRACK →</button>
+          <p class="formnote" id="note-composer">Mockup only for now — nothing was actually sent. Wire this to a form backend when ready to go live.</p>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer class="site">
+  <div class="wrap">
+    <p>BandLocate — man + machine, in harmony.</p>
+  </div>
+</footer>
+
+<script>
+  const RELEASES = [
+    { id: "yfycu8a4LUM", title: "I'm So High" },
+    { id: "qjaZ7Cxs82A", title: "Don't Be Afraid" },
+    { id: "wwajzP2PpM8", title: "In Your Eyes" },
+  ];
+
+  const grid = document.getElementById('relgrid');
+  const songSelect = document.getElementById('songSelect');
+
+  RELEASES.forEach((r) => {
+    const thumbUrl = `https://img.youtube.com/vi/${r.id}/hqdefault.jpg`;
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="thumb" data-id="${r.id}" role="button" tabindex="0" aria-label="Play ${r.title}">
+        <img src="${thumbUrl}" alt="${r.title}" loading="lazy">
+        <div class="playbtn"></div>
+      </div>
+      <div class="card-body">
+        <div class="tname">${r.title}</div>
+        <div class="crow">
+          <span class="rate">$150–$5,500</span>
+          <button class="sing-btn" type="button" data-song="${r.title}">I want to sing this →</button>
+        </div>
+      </div>`;
+    grid.appendChild(card);
+
+    const opt = document.createElement('option');
+    opt.value = r.title; opt.textContent = r.title;
+    songSelect.appendChild(opt);
+  });
+
+  grid.addEventListener('click', (e) => {
+    const thumb = e.target.closest('.thumb');
+    if(thumb && !thumb.querySelector('iframe')){
+      const embedUrl = `https://www.youtube-nocookie.com/embed/${thumb.dataset.id}?autoplay=1&rel=0`;
+      thumb.innerHTML = `<iframe src="${embedUrl}" title="Now playing" frameborder="0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+      return;
+    }
+
+    const btn = e.target.closest('.sing-btn');
+    if(!btn) return;
+    songSelect.value = btn.dataset.song;
+    document.getElementById('sing').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mjgnpgld';
+
+  async function handleSubmit(e, kind){
+    e.preventDefault();
+    const form = e.target;
+    const note = document.getElementById('note-' + kind);
+    const btn = form.querySelector('.submitbtn');
+
+    btn.disabled = true;
+    btn.style.opacity = '0.6';
+    note.textContent = 'Sending…';
+    note.style.color = '';
+    note.classList.add('show');
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        note.textContent = "Sent — you'll hear back by email if it's a fit.";
+        form.reset();
+      } else {
+        const data = await res.json().catch(() => null);
+        note.textContent = (data && data.errors)
+          ? data.errors.map(err => err.message).join(', ')
+          : 'Something went wrong sending that — try again in a moment.';
+        note.style.color = 'var(--wine)';
+      }
+    } catch (err) {
+      note.textContent = 'Network error — check your connection and try again.';
+      note.style.color = 'var(--wine)';
+    } finally {
+      btn.disabled = false;
+      btn.style.opacity = '';
+    }
+
+    return false;
+  }
+</script>
+
+</body>
+</html>
